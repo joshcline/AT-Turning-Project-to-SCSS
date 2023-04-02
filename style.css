@@ -1,0 +1,10 @@
+td {
+    width: 65px;
+    height: 65px;
+    background-color: blue;
+    text-align: center;
+}
+
+.unusedPiece {
+    background-color: lightblue;
+}
