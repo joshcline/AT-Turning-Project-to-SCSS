@@ -9,6 +9,11 @@ const board = [
     20, null, 21, null, 22, null, 23, null
 ]
 
+let findPiece = function (pieceId) {
+    let parsed = parseInt(pieceId);
+    return board.indexOf(parsed);
+}
+
 const cells = document.querySelectorAll("td");
 let whitePieces = document.querySelectorAll("p");
 let blackPieces = document.querySelectorAll("section");
@@ -71,6 +76,101 @@ function resetBorders() {
     getSelectedPiece()
 }
 
+function resetSelectedPieceProperties() {
+    selectedPiece.pieceId = -1;
+    selectedPiece.pieceId = -1;
+    selectedPiece.isKing = false;
+    selectedPiece.seventhSpace = false;
+    selectedPiece.ninthSpace = false;
+    selectedPiece.fourteenthSpace = false;
+    selectedPiece.eighteethSpace = false;
+    selectedPiece.minusSeventhSpace = false;
+    selectedPiece.minusNinthSpace = false;
+    selectedPiece.minusFourteenthSpace = false;
+    selectedPiece.minusEighteenthSpace = false;
+}
+
+function getSelectedPiece() {
+    selectedPiece.pieceId = parseInt(event.target.id);
+    selectedPiece.indexOfBoardPiece = findPiece(selectedPiece.pieceId);
+    isPieceKing();
+}
+
+function isPieceKing() {
+    if (document.getElementById(selectedPiece.pieceId).classList.contains("king")) {
+        selectedPiece.isKing = true;
+    } else {
+        selectedPiece.isKing = false;
+    }
+    getAvailableSpaces();
+}
+
+function getAvailableSpaces() {
+    if (board[selectedPiece.indexOfBoardPiece + 7] === null &&
+        cells[selectedPiece.indexOfBoardPiece + 7].classList.contains("unusedPiece") !== true) {
+            selectedPiece.seventhSpace = true;
+    }
+    if (board[selectedPiece.indexOfBoardPiece + 9] === null &&
+        cells[selectedPiece.indexOfBoardPiece + 9].classList.contains("unusedPiece") !== true) {
+            selectedPiece.ninthSpace = true;
+    }
+    if (board[selectedPiece.indexOfBoardPiece - 7] === null &&
+        cells[selectedPiece.indexOfBoardPiece - 7].classList.contains("unusedPiece") !== true) {
+            selectedPiece.minusSeventhSpace = true;
+    }
+    if (board[selectedPiece.indexOfBoardPiece - 9] === null &&
+        cells[selectedPiece.indexOfBoardPiece - 9].classList.contains("unusedPiece") !== true) {
+            selectedPiece.minusNinthSpace = true;
+    }
+    checkAvailableJumpSpaces();
+}
+
+function checkAvailableJumpSpaces() {
+    if (turn) {
+        if (board[selectedPiece.indexOfBoardPiece + 14] === null 
+            && cells[selectedPiece.indexOfBoardPiece + 14].classList.contains("unusedPiece") !== true
+            && board[selectedPiece.indexOfBoardPiece + 7] >= 12) {
+                selectedPiece.fourteenthSpace = true;
+        }
+        if (board[selectedPiece.indexOfBoardPiece + 18] === null
+            && cells[selectedPiece.indexOfBoardPiece + 18].classList.contains("unusedPiece") !== true
+            && board[selectedPiece.indexOfBoardPiece + 9] >= 12) {
+                selectedPiece.eighteethSpace = true;
+        }
+        if (board[selectedPiece.indexOfBoardPiece - 14] === null
+            && cells[selectedPiece.indexOfBoardPiece - 14].classList.contains("unusedPiece") !== true
+            && board[selectedPiece.indexOfBoardPiece - 7] >= 12) {
+                selectedPiece.minusFourteenthSpace = true;
+        }
+        if (board[selectedPiece.indexOfBoardPiece - 18] === null
+            && cells[selectedPiece.indexOfBoardPiece - 18].classList.contains("unusedPiece") !== true
+            && board[selectedPiece.indexOfBoardPiece - 9] >= 12) {
+                selectedPiece.minusEighteenthSpace = true;
+        }
+    } else {
+        if (board[selectedPiece.indexOfBoardPiece + 14] === null
+            && cells[selectedPiece.indexOfBoardPiece + 14].classList.contains("unusedPiece") !== true
+            && board[selectedPiece.indexOfBoardPiece + 7] < 12 && board[selectedPiece.indexOfBoardPiece + 7] !== null) {
+                selectedPiece.fourteenthSpace = true;
+        }
+        if (board[selectedPiece.indexOfBoardPiece + 18] === null
+            && cells[selectedPiece.indexOfBoardPiece + 18].classList.contains("unusedPiece") !== true
+            && board[selectedPiece.indexOfBoardPiece + 9] < 12 && board[selectedPiece.indexOfBoardPiece + 9] !== null) {
+                selectedPiece.eighteethSpace = true;
+        }
+        if (board[selectedPiece.indexOfBoardPiece - 14] === null
+            && cells[selectedPiece.indexOfBoardPiece - 14].classList.contains("unusedPiece") !== true
+            && board[selectedPiece.indexOfBoardPiece - 7] < 12 && board[selectedPiece.indexOfBoardPiece - 7] !== null) {
+                selectedPiece.minusFourteenthSpace = true;
+        }
+        if (board[selectedPiece.indexOfBoardPiece - 18] === null
+            && cells[selectedPiece.indexOfBoardPiece - 18].classList.contains("unusedPieces") !== true
+            && board[selectedPiece.indexOfBoardPiece - 9] < 12 && board[selectedPiece.indexOfBoardPiece - 9] !== null) {
+                selectedPiece.minusFourteenthSpace = true;
+        }
+    }
+    checkPieceConditions();
+}
 
 
 givePiecesEventListeners()
