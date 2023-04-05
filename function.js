@@ -228,4 +228,33 @@ function giveCellsClick() {
     }
 }
 
+function makeMove(number) {
+    document.getElementById(selectedPiece.pieceId).remove();
+    cells[selectedPiece.indexOfBoardPiece].innerHTML = "";
+    if (turn) {
+        if (selectedPiece.isKing) {
+            cells[selectedPiece.indexOfBoardPiece + number].innerHTML = `<p class="white-piece king" id="${selectedPiece.pieceId}"></p>`;
+            whitePieces = document.querySelectorAll("p");
+        } else {
+            cells[selectedPiece.indexOfBoardPiece + number].innerHTML = `<p class="white-piece" id="${selectedPiece.pieceId}"></p>`;
+            whitePieces = document.querySelectorAll("p");
+        }
+    } else {
+        if (selectedPiece.isKing) {
+            cells[selectedPiece.indexOfBoardPiece + number].innerHTML = `<section class="black-piece king" id="${selectedPiece.pieceId}"></section>`;
+            blackPieces = document.querySelectorAll("section");
+        } else {
+            cells[selectedPiece.indexOfBoardPiece + number].innerHTML = `<section class="black-piece" id="${selectedPiece.pieceId}"></section>`;
+            blackPieces = document.querySelectorAll("section");
+        }
+    }
+
+    let indexOfPiece = selectedPiece.indexOfBoardPiece
+    if (number === 14 || number === -14 || number === 18 || number === -18) {
+        changeData(indexOfPiece, indexOfPiece + number, indexOfPiece + number / 2);
+    } else {
+        changeData(indexOfPiece, indexOfPiece + number);
+    }
+}
+
 givePiecesEventListeners()
