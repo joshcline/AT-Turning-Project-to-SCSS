@@ -25,6 +25,8 @@ let turn = true;
 let whiteScore = 12;
 let blackScore = 12;
 let playerPieces;
+var whitePiecesLeft = 12;
+var blackPiecesLeft = 12;
 
 let selectedPiece = {
     pieceId: -1,
@@ -37,7 +39,7 @@ let selectedPiece = {
     minusSeventhSpace: false,
     minusNinthSpace: false,
     minusFourteenthSpace: false,
-    minusEighteenthSpace: false,
+    minusEighteenthSpace: false
 }
 
 function givePiecesEventListeners() {
@@ -64,7 +66,7 @@ function getPlayerPieces() {
 
 function removeCellonClick() {
     for (let i = 0; i < cells.length; i++) {
-        cells[i].removeAttribute("onClick");
+        cells[i].removeAttribute("onclick");
     }
 }
 
@@ -158,19 +160,23 @@ function checkAvailableJumpSpaces() {
             && board[selectedPiece.indexOfBoardPiece + 9] < 12 && board[selectedPiece.indexOfBoardPiece + 9] !== null) {
                 selectedPiece.eighteethSpace = true;
         }
-        if (board[selectedPiece.indexOfBoardPiece - 14] === null
-            && cells[selectedPiece.indexOfBoardPiece - 14].classList.contains("unusedPiece") !== true
-            && board[selectedPiece.indexOfBoardPiece - 7] < 12 && board[selectedPiece.indexOfBoardPiece - 7] !== null) {
+        if (board[selectedPiece.indexOfBoardPiece - 14] === null && cells[selectedPiece.indexOfBoardPiece - 14].classList.contains("unusedPiece") !== true
+            && board[selectedPiece.indexOfBoardPiece - 7] < 12
+            && board[selectedPiece.indexOfBoardPiece - 7] !== null) {
                 selectedPiece.minusFourteenthSpace = true;
-        }
-        if (board[selectedPiece.indexOfBoardPiece - 18] === null
-            && cells[selectedPiece.indexOfBoardPiece - 18].classList.contains("unusedPieces") !== true
-            && board[selectedPiece.indexOfBoardPiece - 9] < 12 && board[selectedPiece.indexOfBoardPiece - 9] !== null) {
+            }
+        
+        if (board[selectedPiece.indexOfBoardPiece - 18] === null && cells[selectedPiece.indexOfBoardPiece - 18].classList.contains("unusedPiece") !== true
+            && board[selectedPiece.indexOfBoardPiece - 9] < 12
+            && board[selectedPiece.indexOfBoardPiece - 9] !== null) {
                 selectedPiece.minusEighteenthSpace = true;
+            }
+                
         }
-    }
-    checkPieceConditions();
+        checkPieceConditions();
 }
+    
+
 
 function checkPieceConditions() {
     if (selectedPiece.isKing) {
@@ -260,7 +266,7 @@ function makeMove(number) {
 function changeData(indexOfBoardPiece, modifiedIndex, removePiece) {
     board[indexOfBoardPiece] = null;
     board[modifiedIndex] = parseInt(selectedPiece.pieceId)
-    if (turn && selectedPiece.pieceId < 12 && modifiedIndex >= 57) {
+    if (turn && selectedPiece.pieceId < 12 && modifiedIndex >= 56) {
         document.getElementById(selectedPiece.pieceId).classList.add("king");
     }
     if (turn === false && selectedPiece.pieceId >= 12 && modifiedIndex <= 7) {
@@ -270,16 +276,66 @@ function changeData(indexOfBoardPiece, modifiedIndex, removePiece) {
         board[removePiece] = null;
         if (turn && selectedPiece.pieceId < 12) {
             cells[removePiece].innerHTML = "";
-            whiteScore--
+            blackScore--
         }
         if (turn === false && selectedPiece.pieceId >= 12) {
             cells[removePiece].innerHTML = "";
-            blackScore--
+            whiteScore--
         }
     }
+
     resetSelectedPieceProperties();
     removeCellonClick();
-    removeEventListener();
+    removeEventListeners();
 }
 
-givePiecesEventListeners()
+function removeEventListeners() {
+    if (turn) {
+        for (let i = 0; i < whitePieces.length; i++) {
+            whitePieces[i].removeEventListener("click", getPlayerPieces);
+        }
+    } else {
+        for (let i = 0; i < blackPieces.length; i++) {
+            blackPieces[i].removeEventListener("click", getPlayerPieces);
+        }
+    }
+    checkForWin();
+}
+
+function checkForWin() {
+    if (blackScore === 0) {
+        for (let i = 0; i < whiteTurnText.length; i++) {
+            whiteTurnText[i].style.color = "black";
+            blackTurnText[i].style.display = "none";
+            divider[i].style.display = "none";
+            whiteTurnText[i].textContent = "WHITE WINS!";
+        }
+    } else if (whiteScore === 0) {
+        for (let i = 0; i < blackTurnText.length; i++) {
+            blackTurnText[i].style.color = "black";
+            whiteTurnText[i].style.display = "none";
+            divider[i].style.display = "none";
+            blackTurnText[i].textContent = "BLACK WINS!";
+        }
+    }
+    changePlayer();
+}
+
+function changePlayer() {
+    if (turn) {
+        turn = false;
+        for (let i = 0; i < whiteTurnText.length; i++) {
+            whiteTurnText[i].style.color = "lightGrey";
+            blackTurnText[i].style.color = "black";
+        }
+    } else {
+        turn = true;
+        for (let i = 0; i < blackTurnText.length; i++) {
+            blackTurnText[i].style.color = "lightGrey";
+            whiteTurnText[i].style.color = "black";
+        }
+    }
+    givePiecesEventListeners();
+}
+
+givePiecesEventListeners();
