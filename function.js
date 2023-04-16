@@ -25,8 +25,6 @@ let turn = true;
 let whiteScore = 12;
 let blackScore = 12;
 let playerPieces;
-var whitePiecesLeft = 12;
-var blackPiecesLeft = 12;
 
 let selectedPiece = {
     pieceId: -1,
