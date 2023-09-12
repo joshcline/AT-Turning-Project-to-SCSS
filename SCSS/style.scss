@@ -1,0 +1,148 @@
+$margin: auto;
+
+@mixin main {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+@mixin table {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@mixin td {
+  width: 65px;
+  height: 65px;
+  background-color: blue;
+  text-align: center;
+}
+
+$background-color: lightblue;
+
+$white-piece-w: 20px;
+$white-piece-h: 20px;
+$white-piece-br: 50px;
+$white-piece-p: 12px;
+$white-piece-bgc: white;
+$white-piece-border: 1px solid black;
+
+$black-piece-w: 20px;
+$black-piece-h: 20px;
+$black-piece-br: 50px;
+$black-piece-p: 12px;
+$black-piece-bgc: black;
+$black-piece-border: 1px solid white;
+
+
+$king-white-piece: gold;
+
+$king-black-piece: silver;
+
+$turn-sequence: center;
+
+$divider-fs: 90px;
+$divider-ml: 40px;
+$divider-mr: 40px;
+
+$white-turn-text-fs: 55px;
+$white-turn-text-ta: center;
+$white-turn-text-c: black;
+
+$black-turn-text-fs: 55px;
+$black-turn-text-ta: center;
+$black-turn-text-c: lightgray;
+
+@mixin p {
+  display: inline-block;
+}
+
+@mixin section {
+  display: inline-block;
+}
+
+@mixin div {
+  display: flex;
+  justify-content: space-between;
+}
+
+* {
+  margin: $margin;
+}
+
+main {
+  @include main;
+}
+
+table {
+  @include table;
+}
+
+td {
+  @include td;
+}
+
+.unusedPiece {
+  background-color: $background-color;
+}
+
+.white-piece {
+  width: $white-piece-w;
+  height: $white-piece-h;
+  border-radius: $white-piece-br;
+  padding: $white-piece-p;
+  background-color: $white-piece-bgc;
+  border: $white-piece-border;
+}
+
+.black-piece {
+  width: $black-piece-w;
+  height: $black-piece-h;
+  border-radius: $black-piece-br;
+  padding: $black-piece-p;
+  background-color: $black-piece-bgc;
+  border: $black-piece-border;
+}
+
+.king.white-piece {
+  background-color: $king-white-piece;
+}
+
+.king.black-piece {
+  background-color: $king-black-piece;
+}
+
+.turn-sequence {
+  text-align: $turn-sequence;
+}
+
+#divider {
+  font-size: $divider-fs;
+  margin-left: $divider-ml;
+  margin-right: $divider-mr;
+}
+
+.white-turn-text {
+  font-size: $white-turn-text-fs;
+  text-align: $white-turn-text-ta;
+  color: $white-turn-text-c;
+}
+
+.black-turn-text {
+  font-size: $black-turn-text-fs;
+  text-align: $black-turn-text-ta;
+  color: $black-turn-text-c;
+}
+
+p {
+  @include p;
+}
+
+section {
+  @include section;
+}
+
+div {
+  @include div;
+}
